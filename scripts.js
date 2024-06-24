@@ -43,4 +43,4 @@ function handleBtnVoltar(){
 //     let enderecoFormatado = enderecoNaoFormatado.replace(regex, '$1.$2.$3.$4');
 //     endereco.value = enderecoFormatado
 // }
-
+..
