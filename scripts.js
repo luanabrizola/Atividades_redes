@@ -41,28 +41,41 @@ function handleBtnVoltar(){
 // }
 
 function calculaEndereco(){
-    var exemploEndereco = "192.168.1.0"
     function primeiroEnd(exemEnd){
+        var exemploEndereco = "192.168.1.0"
         var ultimoPonto = exemploEndereco.lastIndexOf('.')
         var ultimoNum = exemploEndereco.substring(ultimoPonto + 1)
         ultimoNum = parseInt(ultimoNum)
         var primeiroEndereco = ultimoNum + 1
-        console.log(primeiroEndereco)
+
+        const lista = []
         for (var i = 1; i < 9; i++){
-            if (i === 1){
-                ultimoNum = parseInt(ultimoNum)
-                var primeiroEndereco = ultimoNum + 1
-                console.log(primeiroEndereco)
+            if (i === 1) {
+                exemploEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum + 1}`
+                ultimoNum += 1
+
+            } else {
+                exemploEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum + 32}`
+                ultimoNum += 32
             }
-            else{
-                ultimoNum = parseInt(ultimoNum)
-                var primeiroEndereco = ultimoNum + 32
-                ultimoNum = primeiroEndereco
-                console.log(primeiroEndereco)
-            }
+            lista.push(exemploEndereco)
+        }
+        console.log(lista)
+    }
+    function ultimoEnd(){
+        var exemploEndereco = "192.168.1.0"
+        var ultimoPonto = exemploEndereco.lastIndexOf('.')
+        var ultimoNum = exemploEndereco.substring(ultimoPonto + 1)
+        ultimoNum = parseInt(ultimoNum)
+        var primeiroEndereco = ultimoNum + 1
+        for (var i = 1; i < 9; i++){
+            exemploUltimoEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum - 3}`
+            ultimoNum -= 3
+            console.log(exemploUltimoEndereco)
         }
     }
     primeiroEnd()
+    ultimoEnd()
 }
 calculaEndereco()
 
