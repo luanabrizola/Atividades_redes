@@ -2,7 +2,7 @@
 
 :root{
     --roxo: #BC6FF1;
-    --branco: #FFFF;
+    --branco: #FFFFFF;
     --cinza: #666464;
 }
 
@@ -17,6 +17,7 @@ body {
     height: 100vh;
     width: 100vw;
     font-family: "Poppins", sans-serif;
+    background-color: var(--branco);
 }
 
 .container {
