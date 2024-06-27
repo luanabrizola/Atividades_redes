@@ -3,7 +3,7 @@ var mascara = form.elements['masc'];
 var subrede = form.elements['subrede'];
 var endereco = form.elements['endereco'];
 var btnLimpar = document.getElementById("limpar")
-var bntCalcular  = document.getElementById("calcula")
+var bntCalcular = document.getElementById("calcula")
 var btnVoltar = document.querySelector("#voltar")
 var tabela = document.querySelector("#tabela")
 var tituloSubrede = document.querySelector("#tituloSubrede")
@@ -17,19 +17,19 @@ btnVoltar.addEventListener("click", handleBtnVoltar)
 
 
 
-function handleBtnLimpar(){
-    if(subrede.value !== '' || endereco.value !== ''){
+function handleBtnLimpar() {
+    if (subrede.value !== '' || endereco.value !== '') {
         subrede.value = ''
         endereco.value = ''
     }
 
-    if(mascara.value !== '1'){
+    if (mascara.value !== '1') {
         mascara.value = "1"
     }
 
 }
 
-function handleBtnVoltar(){
+function handleBtnVoltar() {
     container.style.display = "block"
     resultado.style.display = "none";
 }
@@ -40,16 +40,16 @@ function handleBtnVoltar(){
 //     calculaQntdeEstacao()
 // }
 
-function calculaEndereco(){
-    function primeiroEnd(exemEnd){
+function calculaEndereco() {
+    function primeiroEnd(exemEnd) {
         var exemploEndereco = "192.168.1.0"
         var ultimoPonto = exemploEndereco.lastIndexOf('.')
         var ultimoNum = exemploEndereco.substring(ultimoPonto + 1)
         ultimoNum = parseInt(ultimoNum)
-        var primeiroEndereco = ultimoNum + 1
+        ultimoNum + 1
 
         const lista = []
-        for (var i = 1; i < 9; i++){
+        for (var i = 1; i < 9; i++) {
             if (i === 1) {
                 exemploEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum + 1}`
                 ultimoNum += 1
@@ -59,40 +59,49 @@ function calculaEndereco(){
                 ultimoNum += 32
             }
             lista.push(exemploEndereco)
+
         }
         console.log(lista)
+        return lista
     }
-    function ultimoEnd(){
-        var exemploEndereco = "192.168.1.0"
-        var ultimoPonto = exemploEndereco.lastIndexOf('.')
-        var ultimoNum = exemploEndereco.substring(ultimoPonto + 1)
-        ultimoNum = parseInt(ultimoNum)
-        var primeiroEndereco = ultimoNum + 1
-        for (var i = 1; i < 9; i++){
-            exemploUltimoEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum - 3}`
-            ultimoNum -= 3
-            console.log(exemploUltimoEndereco)
+//Luana (pra eu mexer depois)
+    function UltimoEndereco(lista) {
+        const listaUltimosEnderecos = []
+        for (const endereco of lista) {
+            const ultimoPonto = endereco.lastIndexOf('.')
+            const ultimoNum = parseInt(endereco.substring(ultimoPonto + 1))
+            const ultimoEndereco = ultimoNum - 3
+            listaUltimosEnderecos.push(`${endereco.slice(0, ultimoPonto)}.${ultimoEndereco}`)
         }
+        return listaUltimosEnderecos
+    }
+
+    const lista = primeiroEnd()
+    if (Array.isArray(lista)) {
+        const ultimosEnderecos = UltimoEndereco(lista)
+        console.log( ultimosEnderecos)
     }
     primeiroEnd()
-    ultimoEnd()
+    UltimoEndereco()
 }
+//
 calculaEndereco()
 
-function calculaMascara(){
+
+function calculaMascara() {
     var expoente = 32 - 24
     var operacao = 2 ** expoente
-    var baseLog = operacao/expoente
+    var baseLog = operacao / expoente
     var log = Math.log2(baseLog)
     var final = 32 - log
     // console.log(final)
 }
 
-function calculaQntdeEstacao(){
+function calculaQntdeEstacao() {
     var subrede = 8
     var divisor = 32 - 24
-    var qtdeEstaçao = (2 ** subrede)/divisor
-    console.log(qtdeEstaçao)
+    var qtdeEstaçao = (2 ** subrede) / divisor
+    //console.log(qtdeEstaçao)
 
 }
 calculaQntdeEstacao()
