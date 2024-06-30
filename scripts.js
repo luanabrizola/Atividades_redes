@@ -48,7 +48,7 @@ function handleBtnCalcular(){
             resultado.style.display = "block"
         }, 1000);
 
-        var mascaraCalculada = calculaMascara()
+        var mascaraCalculada = calculaMascara(calculaQntdeEstacao())
         var quantidadeEstacoes = calculaQntdeEstacao()
         var qtdeEnderecos = enderecos(calculaQntdeEstacao())
         var listaEnderecos = primeiroEnd(calculaQntdeEstacao())
@@ -62,23 +62,20 @@ function handleBtnCalcular(){
     }
 }
 
-function calculaMascara() {
+function calculaMascara(qtdeEstacao) {
     var mascInput = mascara.value
 
-    var expoente = 32 - mascInput
-    var operacao = 2 ** expoente
-    var baseLog = operacao / expoente
-    var log = Math.log2(baseLog)
-    var final = 32 - log
-    console.log(final)
+    var log = Math.log2(qtdeEstacao)
+    var conta = 32 - log
+    console.log(conta)
 
-    return final
+    return conta
 }
 
 function calculaQntdeEstacao() {
-    var subrede = 8
-    var divisor = 32 - mascara.value
-    var qtdeEstacao = (2 ** subrede) / divisor
+    var sub = subrede.value
+    var menos = 32 - mascara.value
+    var qtdeEstacao = (2 ** menos) / sub
     console.log(qtdeEstacao)
     return qtdeEstacao
 }
@@ -169,7 +166,7 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
     thQtdeEstacao.textContent = 'Qtde de Estações'
     thTodoEndereco.textContent = 'Endereços'
     thPrimeiroEndereco.textContent = 'Primeiro Endereço'
-    thUltimoEndereco.textContent = 'Último Endereço'
+    thUltimoEndereco.textContent = 'Broadcast'
     thMascara.textContent = 'Máscara'
 
     trCabecalho.appendChild(thSubrede)
@@ -192,10 +189,11 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
 
         tdSubrede.textContent = (index + 1).toString()
         tdQtdeEstacao.textContent = quantidadeEstacoes
-        tdTodoEndereco.textContent = `${qtdeEnderecos[0][index]}, ${qtdeEnderecos[1][index]}`
+        tdTodoEndereco.textContent = `${qtdeEnderecos[0][index]} - ${qtdeEnderecos[1][index]}`
         tdPrimeiroEndereco.textContent = enderecoIP
         tdUltimoEndereco.textContent = listaUltimos[index]
-        tdMascara.textContent = mascaraCalculada
+        tdMascara.textContent = `\\${mascaraCalculada}`;
+
 
         tr.appendChild(tdSubrede)
         tr.appendChild(tdQtdeEstacao)
