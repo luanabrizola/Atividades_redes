@@ -136,16 +136,16 @@ function enderecos(qtdeEstacao){
         }
     console.log(lista2)
 
-    return lista2
+    return [lista, lista2]
 }
 
 function ultimoEnd(lista2, qtdeSubredes) {
     const listaUltimos = []
     for (var i = 0; i < qtdeSubredes; i++) {
-        var ultimoPonto = lista2[i].lastIndexOf('.')
-        var ultimoNum = parseInt(lista2[i].substring(ultimoPonto + 1))
+        var ultimoPonto = lista2[1][i].lastIndexOf('.')
+        var ultimoNum = parseInt(lista2[1][i].substring(ultimoPonto + 1))
 
-        listaUltimos.push(`${(lista2[i]).slice(0, ultimoPonto)}.${ultimoNum - 1}`)
+        listaUltimos.push(`${(lista2[1][i]).slice(0, ultimoPonto)}.${ultimoNum - 1}`)
         }
 
     console.log(listaUltimos)
@@ -154,24 +154,27 @@ function ultimoEnd(lista2, qtdeSubredes) {
 }
 
 
-function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
+function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantidadeEstacoes, qtdeEnderecos) {
     tabela.innerHTML = ''
 
     var trCabecalho = document.createElement('tr')
     var thSubrede = document.createElement('th')
     var thQtdeEstacao = document.createElement('th')
+    var thTodoEndereco = document.createElement('th')
     var thPrimeiroEndereco = document.createElement('th')
     var thUltimoEndereco = document.createElement('th')
     var thMascara = document.createElement('th')
 
     thSubrede.textContent = 'Subrede'
     thQtdeEstacao.textContent = 'Qtde de Estações'
+    thTodoEndereco.textContent = 'Endereços'
     thPrimeiroEndereco.textContent = 'Primeiro Endereço'
     thUltimoEndereco.textContent = 'Último Endereço'
     thMascara.textContent = 'Máscara'
 
     trCabecalho.appendChild(thSubrede)
     trCabecalho.appendChild(thQtdeEstacao)
+    trCabecalho.appendChild(thTodoEndereco)
     trCabecalho.appendChild(thPrimeiroEndereco)
     trCabecalho.appendChild(thUltimoEndereco)
     trCabecalho.appendChild(thMascara)
@@ -182,18 +185,21 @@ function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
         var tr = document.createElement('tr')
         var tdSubrede = document.createElement('td')
         var tdQtdeEstacao = document.createElement('td')
+        var tdTodoEndereco = document.createElement('td')
         var tdPrimeiroEndereco = document.createElement('td')
         var tdUltimoEndereco = document.createElement('td')
         var tdMascara = document.createElement('td')
 
         tdSubrede.textContent = (index + 1).toString()
         tdQtdeEstacao.textContent = quantidadeEstacoes
+        tdTodoEndereco.textContent = `${qtdeEnderecos[0][index]}, ${qtdeEnderecos[1][index]}`
         tdPrimeiroEndereco.textContent = enderecoIP
         tdUltimoEndereco.textContent = listaUltimos[index]
         tdMascara.textContent = mascaraCalculada
 
         tr.appendChild(tdSubrede)
         tr.appendChild(tdQtdeEstacao)
+        tr.appendChild(tdTodoEndereco)
         tr.appendChild(tdPrimeiroEndereco)
         tr.appendChild(tdUltimoEndereco)
         tr.appendChild(tdMascara)
@@ -203,6 +209,7 @@ function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
 
     tituloSubrede.textContent = 'Subrede'
     tituloQtdeEstacao = 'Qtde de Estações'
+    tituloTodoEndereco = 'Endereços'
     tituloPrimeiroEnd.textContent = 'Primeiro Endereço'
     tituloUltimoEnd.textContent = 'Último Endereço'
     tituloMascara.textContent = 'Máscara'
