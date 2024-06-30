@@ -1,7 +1,7 @@
-var form = document.getElementById("form");
-var mascara = form.elements['masc'];
-var subrede = form.elements['subrede'];
-var endereco = form.elements['endereco'];
+var form = document.getElementById("form")
+var mascara = form.elements['masc']
+var subrede = form.elements['subrede']
+var endereco = form.elements['endereco']
 var btnLimpar = document.getElementById("limpar")
 var bntCalcular = document.getElementById("calcular")
 var btnVoltar = document.querySelector("#voltar")
@@ -48,7 +48,7 @@ function handleBtnCalcular(){
             resultado.style.display = "block"
         }, 1000);
 
-        var listaEnderecos = calculaEndereco()
+        var listaEnderecos = primeiroEnd(calculaQntdeEstacao())
         var mascaraCalculada = calculaMascara()
         var quantidadeEstacoes = calculaQntdeEstacao()
 
@@ -60,39 +60,35 @@ function handleBtnCalcular(){
     }
 }
 
-function calculaEndereco() {
+function calculaQntdeEstacao() {
+    var subrede = 8
+    var divisor = 32 - 24
+    var qtdeEstacao = (2 ** subrede) / divisor
+    console.log(qtdeEstacao)
+    return qtdeEstacao
+}
 
-    function primeiroEnd() {
-        var end = endereco.value
 
-        var ultimoPonto = end.lastIndexOf('.')
-        var ultimoNum = end.substring(ultimoPonto + 1)
-        ultimoNum = parseInt(ultimoNum)
-        ultimoNum + 1
+function primeiroEnd(qtdeEstacao) {
+    var end = endereco.value
 
-        const lista = []
-        for (var i = 1; i < 9; i++) {
-            if (i === 1) {
-                end = `${end.slice(0, ultimoPonto)}.${ultimoNum + 1}`
-                ultimoNum += 1
-            } else {
-                end = `${end.slice(0, ultimoPonto)}.${ultimoNum + 32}`
-                ultimoNum += 32;
-            }
-            lista.push(end);
+    var ultimoPonto = end.lastIndexOf('.');
+    var ultimoNum = parseInt(end.substring(ultimoPonto + 1))
+    var qtdeSubredes = parseInt(subrede.value)
+
+    const lista = []
+    for (var i = 0; i < qtdeSubredes; i++) {
+        if (i === 0) {
+            lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + 1}`)
+            ultimoNum += 1
+        } else {
+            lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + qtdeEstacao}`)
+            ultimoNum += qtdeEstacao
         }
-        console.log(lista);
-        return lista;
     }
+    return lista
+}
 
-    const lista = primeiroEnd()
-
-    if (Array.isArray(lista) && lista.length > 0) {
-        return lista
-    } else {
-        console.error('A lista de endereços está vazia ou não é válida.')
-        return []
-    }
 
 //Luana (pra eu mexer depois)
     // function UltimoEndereco(lista) {
@@ -113,7 +109,7 @@ function calculaEndereco() {
     // }
     // primeiroEnd()
     // UltimoEndereco()
-}
+
 
 function calculaMascara() {
     var expoente = 32 - 24
@@ -121,13 +117,6 @@ function calculaMascara() {
     var baseLog = operacao / expoente
     var log = Math.log2(baseLog)
     var final = 32 - log
-}
-
-function calculaQntdeEstacao() {
-    var subrede = 8
-    var divisor = 32 - 24
-    var qtdeEstaçao = (2 ** subrede) / divisor
-
 }
 
 function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
@@ -196,4 +185,3 @@ function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
 //     }
 
 // }
-
