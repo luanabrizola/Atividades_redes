@@ -52,54 +52,95 @@ function handleBtnCalcular(){
         var mascaraCalculada = calculaMascara()
         var quantidadeEstacoes = calculaQntdeEstacao()
 
-        atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes)
+        if (Array.isArray(listaEnderecos) && listaEnderecos.length > 0) {
+            atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes);
+        } else {
+            console.error('A lista de endereços está vazia ou não é válida.');
+            // Aqui você pode tratar o caso em que não há endereços para exibir na tabela
+        }
     }
 }
 
 function calculaEndereco() {
-    function primeiroEnd(exemEnd) {
-        var exemploEndereco = "192.168.1.0"
-        var ultimoPonto = exemploEndereco.lastIndexOf('.')
-        var ultimoNum = exemploEndereco.substring(ultimoPonto + 1)
-        ultimoNum = parseInt(ultimoNum)
-        ultimoNum + 1
 
-        const lista = []
+    function primeiroEnd() {
+        var end = endereco.value;
+
+        var ultimoPonto = end.lastIndexOf('.');
+        var ultimoNum = end.substring(ultimoPonto + 1);
+        ultimoNum = parseInt(ultimoNum);
+        ultimoNum + 1; // Esta linha não está fazendo nada, o valor não está sendo atribuído a lugar nenhum
+
+        const lista = [];
         for (var i = 1; i < 9; i++) {
             if (i === 1) {
-                exemploEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum + 1}`
-                ultimoNum += 1
-
+                end = `${end.slice(0, ultimoPonto)}.${ultimoNum + 1}`;
+                ultimoNum += 1;
             } else {
-                exemploEndereco = `${exemploEndereco.slice(0, ultimoPonto)}.${ultimoNum + 32}`
-                ultimoNum += 32
+                end = `${end.slice(0, ultimoPonto)}.${ultimoNum + 32}`;
+                ultimoNum += 32;
             }
-            lista.push(exemploEndereco)
-
+            lista.push(end);
         }
-        console.log(lista)
-        return lista
+        console.log(lista);
+        return lista;
     }
+
+    // Chama primeiroEnd() para obter a lista de endereços IP
+    const lista = primeiroEnd();
+
+    // Verifica se lista é um array válido e se tem pelo menos um endereço IP
+    if (Array.isArray(lista) && lista.length > 0) {
+        return lista;
+    } else {
+        console.error('A lista de endereços está vazia ou não é válida.');
+        return []; // Retorna um array vazio em caso de erro ou lista vazia
+    }
+
+    // function primeiroEnd() {
+    //     var end = endereco.value
+
+    //     var ultimoPonto = end.lastIndexOf('.')
+    //     var ultimoNum = end.substring(ultimoPonto + 1)
+    //     ultimoNum = parseInt(ultimoNum)
+    //     ultimoNum + 1
+
+    //     const lista = []
+    //     for (var i = 1; i < 9; i++) {
+    //         if (i === 1) {
+    //             end = `${end.slice(0, ultimoPonto)}.${ultimoNum + 1}`
+    //             ultimoNum += 1
+
+    //         } else {
+    //             end = `${end.slice(0, ultimoPonto)}.${ultimoNum + 32}`
+    //             ultimoNum += 32
+    //         }
+    //         lista.push(end)
+
+    //     }
+    //     console.log(lista)
+    //     return lista
+    // }
 
 //Luana (pra eu mexer depois)
-    function UltimoEndereco(lista) {
-        const listaUltimosEnderecos = []
-        for (const endereco of lista) {
-            const ultimoPonto = endereco.lastIndexOf('.')
-            const ultimoNum = parseInt(endereco.substring(ultimoPonto + 1))
-            const ultimoEndereco = ultimoNum - 3
-            listaUltimosEnderecos.push(`${endereco.slice(0, ultimoPonto)}.${ultimoEndereco}`)
-        }
-        return listaUltimosEnderecos
-    }
+    // function UltimoEndereco(lista) {
+    //     const listaUltimosEnderecos = []
+    //     for (const endereco of lista) {
+    //         const ultimoPonto = endereco.lastIndexOf('.')
+    //         const ultimoNum = parseInt(endereco.substring(ultimoPonto + 1))
+    //         const ultimoEndereco = ultimoNum - 3
+    //         listaUltimosEnderecos.push(`${endereco.slice(0, ultimoPonto)}.${ultimoEndereco}`)
+    //     }
+    //     return listaUltimosEnderecos
+    // }
 
-    const lista = primeiroEnd()
-    if (Array.isArray(lista)) {
-        const ultimosEnderecos = UltimoEndereco(lista)
-        console.log( ultimosEnderecos)
-    }
-    primeiroEnd()
-    UltimoEndereco()
+    // const lista = primeiroEnd()
+    // if (Array.isArray(lista)) {
+    //     const ultimosEnderecos = UltimoEndereco(lista)
+    //     console.log( ultimosEnderecos)
+    // }
+    // primeiroEnd()
+    // UltimoEndereco()
 }
 
 function calculaMascara() {
@@ -118,19 +159,40 @@ function calculaQntdeEstacao() {
 }
 
 function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
-    tabela.innerHTML = '';
+    tabela.innerHTML = ''; // Limpa o conteúdo atual da tabela
 
-    for (var i = 0; i < listaEnderecos.length; i++) {
+    // Cria o cabeçalho da tabela
+    var trCabecalho = document.createElement('tr');
+    var thSubrede = document.createElement('th');
+    var thPrimeiroEndereco = document.createElement('th');
+    var thUltimoEndereco = document.createElement('th');
+    var thMascara = document.createElement('th');
+
+    thSubrede.textContent = 'Subrede';
+    thPrimeiroEndereco.textContent = 'Primeiro Endereço';
+    thUltimoEndereco.textContent = 'Último Endereço';
+    thMascara.textContent = 'Máscara';
+
+    trCabecalho.appendChild(thSubrede);
+    trCabecalho.appendChild(thPrimeiroEndereco);
+    trCabecalho.appendChild(thUltimoEndereco);
+    trCabecalho.appendChild(thMascara);
+
+    tabela.appendChild(trCabecalho);
+
+    // Preenche a tabela com os dados de cada endereço IP
+    listaEnderecos.forEach(function(enderecoIP, index) {
         var tr = document.createElement('tr');
         var tdSubrede = document.createElement('td');
         var tdPrimeiroEndereco = document.createElement('td');
         var tdUltimoEndereco = document.createElement('td');
         var tdMascara = document.createElement('td');
 
-        tdSubrede.textContent = (i + 1).toString();
-        tdPrimeiroEndereco.textContent = listaEnderecos[i];
-        tdUltimoEndereco.textContent = `Último Endereço ${i + 1}`;
-        tdMascara.textContent = mascaraCalculada;
+        tdSubrede.textContent = (index + 1).toString();
+        tdPrimeiroEndereco.textContent = enderecoIP;
+        // Supondo que você tenha as variáveis mascaraCalculada e quantidadeEstacoes
+        tdUltimoEndereco.textContent = mascaraCalculada; // Exemplo de texto para o último endereço
+        tdMascara.textContent = quantidadeEstacoes; // Exemplo de texto para a máscara
 
         tr.appendChild(tdSubrede);
         tr.appendChild(tdPrimeiroEndereco);
@@ -138,8 +200,15 @@ function atualizaTabela(listaEnderecos, mascaraCalculada, quantidadeEstacoes) {
         tr.appendChild(tdMascara);
 
         tabela.appendChild(tr);
-    }
+    });
+
+    // Atualiza os títulos com os dados calculados
+    tituloSubrede.textContent = 'Subrede';
+    tituloPrimeiroEnd.textContent = 'Primeiro Endereço';
+    tituloUltimoEnd.textContent = 'Último Endereço';
+    tituloMascara.textContent = 'Máscara';
 }
+
 
 // function permitirNumerosEPonto(input) {
 //     input.value = input.value.replace(/[^\d.]/g, '');
