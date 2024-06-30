@@ -24,6 +24,7 @@ body {
     text-align: center;
     width: 100vw;
     margin-top: 20px;
+    background-color: var(--branco);
 }
 
 .input {
@@ -59,6 +60,7 @@ button {
     border: none;
     border-radius: 5px;
     font-family: "Poppins";
+    cursor: pointer;
 }
 
 #limpar{
@@ -75,9 +77,11 @@ button {
 }
 
 table{
+    margin-top: 50px;
     border-collapse: collapse;
     border-bottom: 1px solid var(--roxo);
     margin-bottom: 15px;
+    overflow-y: auto;
 }
 
 th, td{

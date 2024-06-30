@@ -67,7 +67,6 @@ function calculaMascara(qtdeEstacao) {
 
     var log = Math.log2(qtdeEstacao)
     var conta = 32 - log
-    console.log(conta)
 
     return conta
 }
@@ -76,7 +75,6 @@ function calculaQntdeEstacao() {
     var sub = subrede.value
     var menos = 32 - mascara.value
     var qtdeEstacao = (2 ** menos) / sub
-    console.log(qtdeEstacao)
     return qtdeEstacao
 }
 
@@ -98,7 +96,6 @@ function primeiroEnd(qtdeEstacao) {
             ultimoNum += qtdeEstacao
         }
     }
-    console.log(lista)
     return lista
 }
 
@@ -111,6 +108,7 @@ function enderecos(qtdeEstacao){
 
     const lista = []
     for (var i = 0; i < qtdeSubredes; i++) {
+
         if (i === 0) {
             lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum}`)
         } else {
@@ -131,7 +129,6 @@ function enderecos(qtdeEstacao){
         lista2.push(`${end2.slice(0, ultimoPonto2)}.${ultimoNum2 + qtdeEstacao - 1}`)
         ultimoNum2 += qtdeEstacao
         }
-    console.log(lista2)
 
     return [lista, lista2]
 }
@@ -144,8 +141,6 @@ function ultimoEnd(lista2, qtdeSubredes) {
 
         listaUltimos.push(`${(lista2[1][i]).slice(0, ultimoPonto)}.${ultimoNum - 1}`)
         }
-
-    console.log(listaUltimos)
 
     return listaUltimos
 }
@@ -204,13 +199,6 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
 
         tabela.appendChild(tr)
     })
-
-    tituloSubrede.textContent = 'Subrede'
-    tituloQtdeEstacao = 'Qtde de Estações'
-    tituloTodoEndereco = 'Endereços'
-    tituloPrimeiroEnd.textContent = 'Primeiro Endereço'
-    tituloUltimoEnd.textContent = 'Último Endereço'
-    tituloMascara.textContent = 'Máscara'
 }
 
 
