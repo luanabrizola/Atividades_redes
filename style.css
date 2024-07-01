@@ -82,7 +82,7 @@ table{
     border-collapse: collapse;
     border-bottom: 1px solid var(--roxo);
     margin-bottom: 15px;
-    height: 400px;
+    max-height: 400px;
     overflow-y: auto;
 }
 
