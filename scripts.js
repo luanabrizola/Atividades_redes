@@ -20,7 +20,7 @@ btnLimpar.addEventListener("click", handleBtnLimpar) //limpar
 btnVoltar.addEventListener("click", handleBtnVoltar) //voltar
 bntCalcular.addEventListener("click", handleBtnCalcular) //calcular
 
-//função que transforma os valores de entrada para vazio 
+//função que transforma os valores de entrada para vazio
 function handleBtnLimpar() {
     if (subrede.value !== '' || endereco.value !== '' || mascara.value !== '') {
         subrede.value = ''
@@ -35,7 +35,7 @@ function handleBtnVoltar() {
     resultado.style.display = "none"
 }
 
-//função que verifica se todos os campos estão preenchidos e se estiver o loander e depois do setTimeout 
+//função que verifica se todos os campos estão preenchidos e se estiver o loander e depois do setTimeout
 //realiza os calculos e mostra os resultados
 function handleBtnCalcular(){
     if (endereco.value === '' || mascara.value === '' || subrede.value === '') { //verificando se esta vazio
@@ -45,13 +45,13 @@ function handleBtnCalcular(){
         alert("Preencha todos os campos para calcular!") //se sim, exibe um alerta
         return;
     } else{
-        loader.style.display = "block" 
-        resultado.style.display = "none" 
+        loader.style.display = "block"
+        resultado.style.display = "none"
 
         setTimeout(function() {  //atraso de 1 segundo
             loader.style.display = "none"
             container.style.display = "none"
-            resultado.style.display = "block" 
+            resultado.style.display = "block"
         }, 1000);
 
         var mascaraCalculada = calculaMascara(calculaQntdeEstacao())
@@ -73,7 +73,7 @@ function handleBtnCalcular(){
 function calculaMascara(qtdeEstacao) {
     var mascInput=mascara.value
     var log = Math.log2(qtdeEstacao) //calcula logaritmo com base 2 da quantidade de estação
-    var conta = 32 - log //subtrai o log do total de bits 
+    var conta = 32 - log //subtrai o log do total de bits
 
     return conta
 }
@@ -91,13 +91,13 @@ function primeiroEnd(qtdeEstacao) {
     var end = endereco.value
 
     var ultimoPonto = end.lastIndexOf('.'); //pega a posição do último ponto do endereço
-    var ultimoNum = parseInt(end.substring(ultimoPonto + 1)) //pega o último número depois do ponto     
+    var ultimoNum = parseInt(end.substring(ultimoPonto + 1)) //pega o último número depois do ponto
     var qtdeSubredes = parseInt(subrede.value)
 
     const lista = []
     for (var i = 0; i < qtdeSubredes; i++) {
         if (i === 0) {
-            lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + 1}`) //adiciona o primeiro endereço de subrede 
+            lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + 1}`) //adiciona o primeiro endereço de subrede
             ultimoNum += 1
         } else {
             lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + qtdeEstacao}`) //adiciona os demais endereços
@@ -111,7 +111,7 @@ function primeiroEnd(qtdeEstacao) {
 function enderecos(qtdeEstacao){
     var end = endereco.value
 
-    var ultimoPonto = end.lastIndexOf('.'); 
+    var ultimoPonto = end.lastIndexOf('.');
     var ultimoNum = parseInt(end.substring(ultimoPonto + 1))
     var qtdeSubredes = parseInt(subrede.value)
 
@@ -159,7 +159,7 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
     tabela.innerHTML = '' //limpa a tabela
 
     //criando elementnos de uma tabela
-    var trCabecalho = document.createElement('tr') 
+    var trCabecalho = document.createElement('tr')
     var thSubrede = document.createElement('th')
     var thQtdeEstacao = document.createElement('th')
     var thTodoEndereco = document.createElement('th')
@@ -201,7 +201,7 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
         tdTodoEndereco.textContent = `${qtdeEnderecos[0][index]} - ${qtdeEnderecos[1][index]}` //define o texto da célula de endereços
         tdPrimeiroEndereco.textContent = enderecoIP //define o texto da célula de primeiro endereço
         tdUltimoEndereco.textContent = listaUltimos[index] //define o texto da célula de broadcast
-        tdMascara.textContent = `\\${mascaraCalculada}` //define o texto da célula de máscara  
+        tdMascara.textContent = `\\${mascaraCalculada}` //define o texto da célula de máscara
 
         //adiciona as cédulas á linha
         tr.appendChild(tdSubrede)
@@ -235,3 +235,23 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
 //     }
 
 // }
+
+
+// Cálculo da Máscara
+
+function subRedeCalc(tamanho) {
+    let num = '';
+    for (let i = 0; i < 32; i++) {
+        if (i % 8 === 0 && i !== 0) {
+            num += '.';
+        }
+        if (i < tamanho) {
+            num += '1';
+        } else {
+            num += '0';
+        }
+    }
+    return num;
+}
+
+
