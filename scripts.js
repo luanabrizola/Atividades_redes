@@ -20,17 +20,8 @@ btnLimpar.addEventListener("click", handleBtnLimpar) //limpar
 btnVoltar.addEventListener("click", handleBtnVoltar) //voltar
 bntCalcular.addEventListener("click", handleBtnCalcular) //calcular
 
-//função que transforma os valores de entrada para vazio
-function handleBtnLimpar() {
-    if (subrede.value !== '' || endereco.value !== '' || mascara.value !== '') {
-        subrede.value = ''
-        endereco.value = ''
-        mascara.value = ''
-    }
-}
-
 mascara.addEventListener('keydown', function(teclado) { //impedir que o usuário digite
-        teclado.preventDefault()
+    teclado.preventDefault()
 })
 
 subrede.addEventListener('keydown', function(teclado) { //impedir que o usuário digite
@@ -40,9 +31,17 @@ subrede.addEventListener('keydown', function(teclado) { //impedir que o usuário
 endereco.addEventListener('input', function(e) { //limitar caracteres
     var value = e.target.value
     value = value.replace(/[^\d.]+/g, '') // Remove caracteres que não são números ou pontos
-
     e.target.value = value
 })
+
+//função que transforma os valores de entrada para vazio
+function handleBtnLimpar() {
+    if (subrede.value !== '' || endereco.value !== '' || mascara.value !== '') {
+        subrede.value = ''
+        endereco.value = ''
+        mascara.value = ""
+    }
+}
 
 //função que atualiza a pagina exibindo o container principal e "esconde os resultados"
 function handleBtnVoltar() {
@@ -50,7 +49,7 @@ function handleBtnVoltar() {
     resultado.style.display = "none"
 }
 
-//função que verifica se todos os campos estão preenchidos e se estiver, mostra o loader e depois de 1s realiza os calculos e mostra os resultados
+//função que verifica se todos os campos estão preenchidos e se estiver o loader aparece, depois de 1s realiza os calculos e mostra os resultados
 function handleBtnCalcular(){
     if (endereco.value === '' || mascara.value === '' || subrede.value === '') { //verificando se esta vazio
         container.style.display = "block"
@@ -74,7 +73,7 @@ function handleBtnCalcular(){
         var listaEnderecos = primeiroEnd(calculaQntdeEstacao())
         var listaUltimos = ultimoEnd(enderecos(calculaQntdeEstacao()), parseInt(subrede.value))
 
-        //verifica se as listas de endereços são avaliadas
+        //verifica se as listas de endereços são válidas
         if (Array.isArray(listaEnderecos) && listaEnderecos.length > 0 && Array.isArray(listaUltimos) && listaUltimos.length > 0) {
             atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantidadeEstacoes, qtdeEnderecos)
         } else {
@@ -117,17 +116,11 @@ function primeiroEnd(qtdeEstacao) {
             lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + qtdeEstacao}`) //adiciona os demais endereços
             ultimoNum += qtdeEstacao
         }
-        // if (qtdeEstacao > 255) {
-        //     primeiroEndereco = binarizador(primeiroEndereco)
-        // } else{
-        //     lista.push(primeiroEndereco)
-        // }
     }
-    console.log(lista)
     return lista
 }
 
-//função para calulcar os enderços de cada subrede
+//função para calcular os enderços de cada subrede
 function enderecos(qtdeEstacao){
     var end = endereco.value
 
@@ -178,7 +171,7 @@ function ultimoEnd(lista2, qtdeSubredes) {
 function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantidadeEstacoes, qtdeEnderecos) {
     tabela.innerHTML = '' //limpa a tabela
 
-    //criando elementnos de uma tabela
+    //criando elementos de uma tabela
     var trCabecalho = document.createElement('tr')
     var thSubrede = document.createElement('th')
     var thQtdeEstacao = document.createElement('th')
@@ -236,51 +229,55 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
     })
 }
 
-
-// function permitirNumerosEPonto(input) {
-//     input.value = input.value.replace(/[^\d.]/g, '');
-//     input.value = input.value.replace(/(\.\.+)/g, '.');
-// }
-
-// function verificaEndereco() {
-//     const regex = /(\d{1,3})(\d{1,3})(\d{1,3})(\d{1,3})/;
-//     let enderecoNaoFormatado = endereco.value.replace(/\D/g, '');
-//     let enderecoFormatado = enderecoNaoFormatado.replace(regex, '$1.$2.$3.$4');
-//     endereco.value = enderecoFormatado
-// }
-
-// function verificaEndereco(){
-//     for ( var i = 0; i > 1; i++){
-//         console.log(i)
-//     }
-
-// }
-
-
 // Cálculo da Máscara
 
-// function sub_rede_calc(mascara) {
-//     let num = '';
-//     for (let i = 0; i < 32; i++) {
-//         if (i % 8 === 0 && i !== 0) {
-//             num += '.';
-//         }
-//         if (i < mascara) {
-//             num += '1';
-//         } else {
-//             num += '0';
-//         }
-//     }
-//     return num;
-// }
+function subRedeCalc(tamanho) {
+    let num = '';
+    for (let i = 0; i < 32; i++) {
+        if (i % 8 === 0 && i !== 0) {
+            num += '.';
+        }
+        if (i < tamanho) {
+            num += '1';
+        } else {
+            num += '0';
+        }
+    }
+    return num;
+}
 
-// function binarizador(num) {
-//     num = num.split('.');
-//     for (let i = 0; i < num.length; i++) {
-//         num[i] = parseInt(num[i]);
-//         num[i] = num[i].toString(2).padStart(8, '0');
-//     }
-//     num = num.join('.');
-//     return num;
-// }
+function binarizador(num) {
+    num = num.split('.');
+    for (let i = 0; i < num.length; i++) {
+        num[i] = parseInt(num[i]);
+        num[i] = num[i].toString(2).padStart(8, '0');
+    }
+    num = num.join('.');
+    return num;
+}
 
+function mascara_calc(num, mascara) {
+    let numBin = binarizador(num);
+    let maskara = subRedeCalc(mascara);
+    let result = '';
+
+    for (let i = 0; i < numBin.length; i++) {
+        if (numBin[i] === '.') {
+            result += '.';
+        } else if (i > mascara + 1) {
+            if (parseInt(numBin[i]) && parseInt(maskara[i])) {
+                result += '0';
+            } else {
+                result += '1';
+            }
+        } else {
+            if (parseInt(numBin[i]) && parseInt(maskara[i])) {
+                result += '1';
+            } else {
+                result += '0';
+            }
+        }
+    }
+    console.log(mascara_calc("10.0.0.0", 22))
+    return result;
+}
