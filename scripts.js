@@ -88,6 +88,8 @@ function calculaMascara(qtdeEstacao) {
     var log = Math.log2(qtdeEstacao) //calcula logaritmo com base 2 da quantidade de estação
     var conta = 32 - log //subtrai o log do total de bits
 
+    console.log(conta)
+
     return conta
 }
 
@@ -95,7 +97,7 @@ function calculaMascara(qtdeEstacao) {
 function calculaQntdeEstacao() {
     var sub = subrede.value //obtem o valor da subrede informada pelo usuario
     var menos = 32 - mascara.value //subtrai o numero de bits com o valor da mascara
-    var qtdeEstacao = (2 ** menos) //obtem a quantidade de estação com 2 elevado ao numero dado na subtração anterior
+    var qtdeEstacao = (2 ** menos) / sub //obtem a quantidade de estação com 2 elevado ao numero dado na subtração anterior
     return qtdeEstacao
 }
 
@@ -231,53 +233,53 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
 
 // Cálculo da Máscara
 
-function subRedeCalc(tamanho) {
-    let num = '';
-    for (let i = 0; i < 32; i++) {
-        if (i % 8 === 0 && i !== 0) {
-            num += '.';
-        }
-        if (i < tamanho) {
-            num += '1';
-        } else {
-            num += '0';
-        }
-    }
-    return num;
-}
+// function subRedeCalc(tamanho) {
+//     let num = '';
+//     for (let i = 0; i < 32; i++) {
+//         if (i % 8 === 0 && i !== 0) {
+//             num += '.';
+//         }
+//         if (i < tamanho) {
+//             num += '1';
+//         } else {
+//             num += '0';
+//         }
+//     }
+//     return num;
+// }
 
-function binarizador(num) {
-    num = num.split('.');
-    for (let i = 0; i < num.length; i++) {
-        num[i] = parseInt(num[i]);
-        num[i] = num[i].toString(2).padStart(8, '0');
-    }
-    num = num.join('.');
-    return num;
-}
+// function binarizador(num) {
+//     num = num.split('.');
+//     for (let i = 0; i < num.length; i++) {
+//         num[i] = parseInt(num[i]);
+//         num[i] = num[i].toString(2).padStart(8, '0');
+//     }
+//     num = num.join('.');
+//     return num;
+// }
 
-function mascara_calc(num, mascara) {
-    let numBin = binarizador(num);
-    let maskara = subRedeCalc(mascara);
-    let result = '';
+// function mascara_calc(num, mascara) {
+//     let numBin = binarizador(num);
+//     let maskara = subRedeCalc(mascara);
+//     let result = '';
 
-    for (let i = 0; i < numBin.length; i++) {
-        if (numBin[i] === '.') {
-            result += '.';
-        } else if (i > mascara + 1) {
-            if (parseInt(numBin[i]) && parseInt(maskara[i])) {
-                result += '0';
-            } else {
-                result += '1';
-            }
-        } else {
-            if (parseInt(numBin[i]) && parseInt(maskara[i])) {
-                result += '1';
-            } else {
-                result += '0';
-            }
-        }
-    }
-    console.log(mascara_calc("10.0.0.0", 22))
-    return result;
-}
+//     for (let i = 0; i < numBin.length; i++) {
+//         if (numBin[i] === '.') {
+//             result += '.';
+//         } else if (i > mascara + 1) {
+//             if (parseInt(numBin[i]) && parseInt(maskara[i])) {
+//                 result += '0';
+//             } else {
+//                 result += '1';
+//             }
+//         } else {
+//             if (parseInt(numBin[i]) && parseInt(maskara[i])) {
+//                 result += '1';
+//             } else {
+//                 result += '0';
+//             }
+//         }
+//     }
+//     console.log(mascara_calc("10.0.0.0", 22))
+//     return result;
+// }
