@@ -25,9 +25,22 @@ function handleBtnLimpar() {
     if (subrede.value !== '' || endereco.value !== '' || mascara.value !== '') {
         subrede.value = ''
         endereco.value = ''
-        mascara.value = ""
+        mascara.value = ''
     }
 }
+
+mascara.addEventListener('keydown', function(teclado) { //impedir que o usuário digite
+        teclado.preventDefault()
+})
+
+subrede.addEventListener('keydown', function(teclado) { //impedir que o usuário digite
+    teclado.preventDefault()
+})
+
+endereco.addEventListener('input', function(e) { //limitar caracteres
+    e.target.value = e.target.value.replace(/[^\d.]/g, '')  // Remove caracteres que não são números ou pontos
+    e.target.value = e.target.value.replace(/(\..*)\./g, '$1')  // Remove pontos consecutivos
+})
 
 //função que atualiza a pagina exibindo o container principal e "esconde os resultados"
 function handleBtnVoltar() {
@@ -35,8 +48,7 @@ function handleBtnVoltar() {
     resultado.style.display = "none"
 }
 
-//função que verifica se todos os campos estão preenchidos e se estiver o loander e depois do setTimeout
-//realiza os calculos e mostra os resultados
+//função que verifica se todos os campos estão preenchidos e se estiver, mostra o loader e depois de 1s realiza os calculos e mostra os resultados
 function handleBtnCalcular(){
     if (endereco.value === '' || mascara.value === '' || subrede.value === '') { //verificando se esta vazio
         container.style.display = "block"
@@ -103,7 +115,13 @@ function primeiroEnd(qtdeEstacao) {
             lista.push(`${end.slice(0, ultimoPonto)}.${ultimoNum + qtdeEstacao}`) //adiciona os demais endereços
             ultimoNum += qtdeEstacao
         }
+        // if (qtdeEstacao > 255) {
+        //     primeiroEndereco = binarizador(primeiroEndereco)
+        // } else{
+        //     lista.push(primeiroEndereco)
+        // }
     }
+    console.log(lista)
     return lista
 }
 
@@ -135,11 +153,11 @@ function enderecos(qtdeEstacao){
 
     const lista2 = []
     for (var i = 0; i < qtdeSubredes2; i++) {
-        lista2.push(`${end2.slice(0, ultimoPonto2)}.${ultimoNum2 + qtdeEstacao - 1}`) //adicona o utlimo endereço de cada subrede
+        lista2.push(`${end2.slice(0, ultimoPonto2)}.${ultimoNum2 + qtdeEstacao - 1}`) //adicona o ultimo endereço de cada subrede
         ultimoNum2 += qtdeEstacao //incrementa o último número pela quantidade de estações
         }
 
-    return [lista, lista2] //retorna as duas listas criada
+    return [lista, lista2] //retorna as duas listas criadas
 }
 
 function ultimoEnd(lista2, qtdeSubredes) {
@@ -148,7 +166,7 @@ function ultimoEnd(lista2, qtdeSubredes) {
         var ultimoPonto = lista2[1][i].lastIndexOf('.')
         var ultimoNum = parseInt(lista2[1][i].substring(ultimoPonto + 1)) //pega o ultimo número do endereço
 
-        listaUltimos.push(`${(lista2[1][i]).slice(0, ultimoPonto)}.${ultimoNum - 1}`) //adicona o utlimo endereço da subrede a lista
+        listaUltimos.push(`${(lista2[1][i]).slice(0, ultimoPonto)}.${ultimoNum - 1}`) //adicona o ultimo endereço da subrede a lista
         }
 
     return listaUltimos
@@ -203,7 +221,7 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
         tdUltimoEndereco.textContent = listaUltimos[index] //define o texto da célula de broadcast
         tdMascara.textContent = `\\${mascaraCalculada}` //define o texto da célula de máscara
 
-        //adiciona as cédulas á linha
+        //adiciona as células à linha
         tr.appendChild(tdSubrede)
         tr.appendChild(tdQtdeEstacao)
         tr.appendChild(tdTodoEndereco)
@@ -239,19 +257,28 @@ function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantida
 
 // Cálculo da Máscara
 
-function subRedeCalc(tamanho) {
-    let num = '';
-    for (let i = 0; i < 32; i++) {
-        if (i % 8 === 0 && i !== 0) {
-            num += '.';
-        }
-        if (i < tamanho) {
-            num += '1';
-        } else {
-            num += '0';
-        }
-    }
-    return num;
-}
+// function sub_rede_calc(mascara) {
+//     let num = '';
+//     for (let i = 0; i < 32; i++) {
+//         if (i % 8 === 0 && i !== 0) {
+//             num += '.';
+//         }
+//         if (i < mascara) {
+//             num += '1';
+//         } else {
+//             num += '0';
+//         }
+//     }
+//     return num;
+// }
 
+// function binarizador(num) {
+//     num = num.split('.');
+//     for (let i = 0; i < num.length; i++) {
+//         num[i] = parseInt(num[i]);
+//         num[i] = num[i].toString(2).padStart(8, '0');
+//     }
+//     num = num.join('.');
+//     return num;
+// }
 
