@@ -38,8 +38,10 @@ subrede.addEventListener('keydown', function(teclado) { //impedir que o usuário
 })
 
 endereco.addEventListener('input', function(e) { //limitar caracteres
-    e.target.value = e.target.value.replace(/[^\d.]/g, '')  // Remove caracteres que não são números ou pontos
-    e.target.value = e.target.value.replace(/(\..*)\./g, '$1')  // Remove pontos consecutivos
+    var value = e.target.value
+    value = value.replace(/[^\d.]+/g, '') // Remove caracteres que não são números ou pontos
+
+    e.target.value = value
 })
 
 //função que atualiza a pagina exibindo o container principal e "esconde os resultados"
