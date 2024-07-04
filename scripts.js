@@ -34,7 +34,9 @@ endereco.addEventListener('input', function(e) { //limitar caracteres
     e.target.value = value
 })
 
-//função que transforma os valores de entrada para vazio
+/**
+ * Limpa os campos do formulário.
+ */
 function handleBtnLimpar() {
     if (subrede.value !== '' || endereco.value !== '' || mascara.value !== '') {
         subrede.value = ''
@@ -43,13 +45,17 @@ function handleBtnLimpar() {
     }
 }
 
-//função que atualiza a pagina exibindo o container principal e "esconde os resultados"
+/**
+ * Exibe o container principal e esconde os resultados.
+ */
 function handleBtnVoltar() {
     container.style.display = "block"
     resultado.style.display = "none"
 }
 
-//função que verifica se todos os campos estão preenchidos e se estiver o loader aparece, depois de 1s realiza os calculos e mostra os resultados
+/**
+ * Verifica se todos os campos estão preenchidos, exibe o loader e, após 1 segundo, realiza os cálculos e mostra os resultados.
+ */
 function handleBtnCalcular(){
     if (endereco.value === '' || mascara.value === '' || subrede.value === '') { //verificando se esta vazio
         container.style.display = "block"
@@ -82,7 +88,12 @@ function handleBtnCalcular(){
     }
 }
 
-//função para calcular a mascara com base na quantidade de estação
+/**
+ * Calcula a máscara com base na quantidade de estações.
+ *
+ * @param {number} qtdeEstacao - Quantidade de estações.
+ * @returns {number} Valor da máscara calculada.
+ */
 function calculaMascara(qtdeEstacao) {
     var mascInput=mascara.value
     var log = Math.log2(qtdeEstacao) //calcula logaritmo com base 2 da quantidade de estação
@@ -93,7 +104,11 @@ function calculaMascara(qtdeEstacao) {
     return conta
 }
 
-//função para calcular  a quantidades de estações
+/**
+ * Calcula a quantidade de estações.
+ *
+ * @returns {number} Quantidade de estações.
+ */
 function calculaQntdeEstacao() {
     var sub = subrede.value //obtem o valor da subrede informada pelo usuario
     var menos = 32 - mascara.value //subtrai o numero de bits com o valor da mascara
@@ -101,7 +116,12 @@ function calculaQntdeEstacao() {
     return qtdeEstacao
 }
 
-//função para calcular o primeiro endereço de cada subrede
+/**
+ * Calcula o primeiro endereço de cada subrede.
+ *
+ * @param {number} qtdeEstacao - Quantidade de estações.
+ * @returns {Array<string>} Lista de primeiros endereços de cada subrede.
+ */
 function primeiroEnd(qtdeEstacao) {
     var end = endereco.value
 
@@ -122,7 +142,12 @@ function primeiroEnd(qtdeEstacao) {
     return lista
 }
 
-//função para calcular os enderços de cada subrede
+/**
+ * Calcula os endereços de cada subrede.
+ *
+ * @param {number} qtdeEstacao - Quantidade de estações.
+ * @returns {Array<Array<string>>} Lista de endereços de subredes.
+ */
 function enderecos(qtdeEstacao){
     var end = endereco.value
 
@@ -157,6 +182,13 @@ function enderecos(qtdeEstacao){
     return [lista, lista2] //retorna as duas listas criadas
 }
 
+/**
+ * Calcula o último endereço de cada subrede.
+ *
+ * @param {Array<string>} lista2 - Lista de endereços de subrede.
+ * @param {number} qtdeSubredes - Quantidade de subredes.
+ * @returns {Array<string>} Lista de últimos endereços de cada subrede.
+ */
 function ultimoEnd(lista2, qtdeSubredes) {
     const listaUltimos = []
     for (var i = 0; i < qtdeSubredes; i++) {
@@ -169,7 +201,15 @@ function ultimoEnd(lista2, qtdeSubredes) {
     return listaUltimos
 }
 
-//função para atualizar a inteface
+/**
+ * Atualiza a interface com os resultados dos cálculos.
+ *
+ * @param {Array<string>} listaEnderecos - Lista de primeiros endereços de cada subrede.
+ * @param {Array<string>} listaUltimos - Lista de últimos endereços de cada subrede.
+ * @param {number} mascaraCalculada - Máscara calculada.
+ * @param {number} quantidadeEstacoes - Quantidade de estações.
+ * @param {Array<Array<string>>} qtdeEnderecos - Lista de endereços de subredes.
+ */
 function atualizaTabela(listaEnderecos, listaUltimos, mascaraCalculada, quantidadeEstacoes, qtdeEnderecos) {
     tabela.innerHTML = '' //limpa a tabela
 
