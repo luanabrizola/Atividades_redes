@@ -1,0 +1,1 @@
+﻿Professor, este é o documento com a correção na documentação das funções no javaScript da atividade avaliativa
